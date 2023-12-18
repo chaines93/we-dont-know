@@ -37,7 +37,7 @@ Resources:
   IamInstanceProfile:
     Type: AWS::IAM::InstanceProfile
     Properties:
-      InstanceProfileName: Corp5-Mythos-Olympus-IAM-Profile
+      InstanceProfileName: Chris-Pipeline-IAM-Profile
       Roles: 
         - !Ref pIAMRole
 # Outputs:
