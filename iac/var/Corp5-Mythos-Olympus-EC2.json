@@ -1,7 +1,7 @@
 {
     "Parameters":{
         "pSecurityGroup" : " ",
-        "pIAMRole" : "Chris-Pipeline-IAM-Role",
+        "pIAMRole" : "Corp5-Mythos-Olympus-IAM-Role",
         "pKMSKey" : "corp-5-dev-key-temp",
         "pSubnetID" : "subnet-0fd9dba0e5230655a"
     }
