@@ -2,21 +2,29 @@ AWSTemplateFormatVersion: "2010-09-09"
 Description: IAM Policy
 
 Parameters:
-  IAMRole:
+  OrgTag: 
     Type: String
-    Default: Corp5-Mythos-Practice-Chris-IAM-Role
+  TeamTag:
+    Type: String 
+  AppTag:
+    Type: String
+  EnvTag:
+    Type: String
+  IAMRoleName:
+    Type: String
   KMSKeyArn:
     Type: String 
   S3BucketArn:
     Type: String
-    
+  PolicyName:
+    Type: String 
 Resources:
   IAMPolicy:
     Type: AWS::IAM::Policy
     Properties:
       Roles: 
-        - !Ref IAMRole
-      PolicyName: Corp5-Mythos-Practice-Chris-IAM-Policy
+        - !Sub "${OrgTag}-${TeamTag}-${AppTag}-${IAMRoleName}-${EnvTag}"
+      PolicyName: !Sub "${OrgTag}-${TeamTag}-${AppTag}-${PolicyName}-${EnvTag}"
       PolicyDocument:
         Version: 2012-10-17
         Statement:
