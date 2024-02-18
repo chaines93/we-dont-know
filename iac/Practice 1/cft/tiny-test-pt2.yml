@@ -1,0 +1,38 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: IAM Policy
+
+Parameters:
+  IAMRole:
+    Type: String
+    Default: Corp5-Mythos-Practice-Chris-IAM-Role
+  KMSKeyArn:
+    Type: String 
+  S3BucketArn:
+    Type: String
+    
+Resources:
+  IAMPolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      Roles: 
+        - !Ref IAMRole
+      PolicyName: Corp5-Mythos-Practice-Chris-IAM-Policy
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Sid: UsageofExternalKMSKey
+            Effect: Allow
+            Action:
+              - kms:Encrypt
+              - kms:Decrypt
+              - kms:GenerateDataKey
+            Resource: !Sub '${KMSKeyArn}'
+          - Sid: UsageofExternals3Bucket
+            Effect: Allow
+            Action:
+              - 's3:GetObject'
+              - 's3:PutObject'
+              - 's3:ListBucket'
+            Resource: 
+              - !Ref S3BucketArn
+              - !Sub '${S3BucketArn}/*'

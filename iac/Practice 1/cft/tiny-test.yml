@@ -1,13 +1,15 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: Project 1 IAM Role CloudFormation
+Description: Air Corp Pipeline CFT
+
+Parameters:
+  IAMRoleName: 
+    Type: String
+    Default: Corp5-Mythos-Practice-Chris-IAM-Role
 Resources:
   IAMRole:
     Type: 'AWS::IAM::Role'
-    Description: Project 1 IAM Role
     Properties:
-      RoleName: Chris-Pipeline-IAM-Role
-      ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+      RoleName: !Ref IAMRoleName
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -18,5 +20,5 @@ Resources:
             Action:
               - 'sts:AssumeRole'
 Outputs:
-  IAMRoleArn:
+  KmsKeyArn:
     Value: !GetAtt IAMRole.Arn

@@ -1,7 +1,0 @@
-{
-    "Parameters":{
-        "Name" : "chris-pipeline-s3-bucket",
-        "KMSKey" : " ",
-        "IAMArn" : "arn:aws:iam::555887476308:role/Chris-Pipeline-IAM-Role"
-    }
-}
