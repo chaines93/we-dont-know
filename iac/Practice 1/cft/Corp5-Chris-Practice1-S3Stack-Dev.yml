@@ -6,8 +6,16 @@ Parameters:
     Type: String
   S3BucketName:
     Type: String
-  IAMRole:
+  IAMRoleName:
     Type: String 
+  OrgTag: 
+    Type: String
+  TeamTag:
+    Type: String 
+  AppTag:
+    Type: String
+  EnvTag:
+    Type: String
 Resources:
   S3Key:
     Type: 'AWS::KMS::Key'
@@ -45,7 +53,7 @@ Resources:
           - Sid: Allow use of the key
             Effect: Allow
             Principal:
-              AWS: !Ref IAMRole
+              AWS: !Sub "${OrgTag}-${TeamTag}-${AppTag}-${IAMRoleName}-${EnvTag}"
             Action:
               - 'kms:DescribeKey'
               - 'kms:Encrypt'
@@ -53,6 +61,15 @@ Resources:
               - 'kms:ReEncrypt*'
               - 'kms:GenerateDataKey'
             Resource: '*'
+      Tags:
+      - Key: Organization
+        Value: !Ref OrgTag
+      - Key: Team
+        Value: !Ref TeamTag
+      - Key: Application
+        Value: !Ref AppTag
+      - Key: Enviornment
+        Value: !Ref EnvTag
 
   S3Bucket:
     Type: AWS::S3::Bucket
@@ -68,6 +85,15 @@ Resources:
         BlockPublicPolicy: true
         IgnorePublicAcls: true
         RestrictPublicBuckets: true
+      Tags:
+        - Key: Organization
+          Value: !Ref OrgTag
+        - Key: Team
+          Value: !Ref TeamTag
+        - Key: Application
+          Value: !Ref AppTag
+        - Key: Enviornment
+          Value: !Ref EnvTag
 
   S3BucketPolicy:
     Type: AWS::S3::BucketPolicy
@@ -78,7 +104,7 @@ Resources:
         Statement:
           - Effect: Allow
             Principal:
-              AWS: !Ref IAMRole
+              AWS: !Sub "${OrgTag}-${TeamTag}-${AppTag}-${IAMRoleName}-${EnvTag}"
             Action:
               - 's3:GetObject'
               - 's3:PutObject'
