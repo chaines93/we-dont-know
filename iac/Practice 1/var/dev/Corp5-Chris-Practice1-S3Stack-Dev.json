@@ -1,0 +1,11 @@
+{
+    "Parameters" : {
+        "OrgTag" : "Corp5",
+        "TeamTag": "Chris",
+        "AppTag": "Practice1",
+        "EnvTag": "Dev",
+        "IAMRoleName": "PeachesAndCream5",
+        "S3BucketName": "corp5-chris-practice1-kobe-dev"
+
+    }
+}

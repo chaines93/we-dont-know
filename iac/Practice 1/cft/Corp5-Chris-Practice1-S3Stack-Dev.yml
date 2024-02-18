@@ -2,8 +2,6 @@ AWSTemplateFormatVersion: "2010-09-09"
 Description: Air Corp Pipeline CFT
 
 Parameters:
-  KmsKeyName:
-    Type: String
   S3BucketName:
     Type: String
   IAMRoleName:

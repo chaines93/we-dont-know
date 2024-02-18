@@ -1,0 +1,10 @@
+{
+    "Parameters" : {
+        "OrgTag" : "Corp5",
+        "TeamTag": "Chris",
+        "AppTag": "Practice1",
+        "EnvTag": "Dev",
+        "IAMRoleName": "PeachesAndCream5"
+
+    }
+}
