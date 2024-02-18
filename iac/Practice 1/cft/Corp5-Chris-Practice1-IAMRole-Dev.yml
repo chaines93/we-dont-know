@@ -2,14 +2,22 @@ AWSTemplateFormatVersion: "2010-09-09"
 Description: Air Corp Pipeline CFT
 
 Parameters:
+  OrgTag: 
+    Type: String
+  TeamTag:
+    Type: String 
+  AppTag:
+    Type: String
+  EnvTag:
+    Type: String
   IAMRoleName: 
     Type: String
-    Default: Corp5-Mythos-Practice-Chris-IAM-Role
+    
 Resources:
   IAMRole:
     Type: 'AWS::IAM::Role'
     Properties:
-      RoleName: !Ref IAMRoleName
+      RoleName: !Sub "${OrgTag}-${TeamTag}-${AppTag}-${IAMRoleName}-${EnvTag}"
       AssumeRolePolicyDocument:
         Version: "2012-10-17"
         Statement:
@@ -19,6 +27,16 @@ Resources:
                 - ec2.amazonaws.com
             Action:
               - 'sts:AssumeRole'
+      Tags:
+        - Key: Organization
+          Value: !Ref OrgTag
+        - Key: Team
+          Value: !Ref TeamTag
+        - Key: Application
+          Value: !Ref AppTag
+        - Key: Enviornment
+          Value: !Ref EnvTag
+
 Outputs:
   KmsKeyArn:
     Value: !GetAtt IAMRole.Arn
