@@ -10,7 +10,7 @@ Parameters:
     Default: arn:aws:codestar-connections:us-east-1:555887476308:connection/2b66dbd6-88a2-4487-9f3c-a336af936ac3
   GithubRepoLocation:
     Type: String 
-    Default: chaines93/we-dont-know
+    Default: chaines93/w9e-dont-know
   GithubDevBranch:
     Type: String 
     Default: Dev
@@ -20,6 +20,9 @@ Parameters:
   Numbers:
     Type: String 
     Default: 717025831274
+  CloudformationRoleArn:
+    Type: String 
+    Default: arn:aws:iam::555887476308:role/Cloudformation-execution-role
 
 Resources:
   Pipeline:
@@ -48,8 +51,8 @@ Resources:
                 DetectChanges: true 
               OutputArtifacts: 
                 - Name: Github-Develop
-              RunOrder: 1
-            - Name: Github-PVE
+            - RunOrder: 1
+              Name: Github-PVE
               ActionTypeId: 
                 Category: Source
                 Provider: CodeStarSourceConnection
@@ -72,4 +75,43 @@ Resources:
                 Provider: Manual 
                 Owner: AWS 
                 Version: 1 
-              
+        - Name: Deploy-Dev
+          Actions: 
+            - RunOrder: 1
+              Name: IAM-Role
+              ActionTypeId: 
+                Category: Deploy
+                Provider: CloudFormation
+                Owner: AWS
+                Version: 1
+              Configuration: 
+                ActionMode: CREATE_UPDATE
+                StackName: Corp5-Chris-Practice1-Cft-IAMRole-Dev
+                Capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM,CAPABILITY_AUTO_EXPAND
+                RoleArn: !Ref CloudformationRoleArn
+                TemplatePath: Github-Develop::iac/Practice 1/cft/Corp5-Chris-Practice1-IAMRole-Dev.yml
+                TemplateConfiguration: Github-Develop::iac/Practice 1/var/dev/Corp5-Chris-Practice1-IAMRole-Dev.json
+                OutputFileName: IAMRoleArn.json
+              InputArtifacts:
+                - Name: Github-Develop
+              OutputArtifacts:
+                - Name: IAM-Role-Dev
+            - RunOrder: 1
+              Name: S3Stack
+              ActionTypeId: 
+                Category: Deploy
+                Provider: CloudFormation
+                Owner: AWS
+                Version: 1
+              Configuration: 
+                ActionMode: CREATE_UPDATE
+                StackName: Corp5-Chris-Practice1-Cft-S3Stack-Dev
+                Capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM,CAPABILITY_AUTO_EXPAND
+                RoleArn: !Ref CloudformationRoleArn
+                TemplatePath: Github-Develop::iac/Practice 1/cft/Corp5-Chris-Practice1-S3Stack-Dev.yml
+                TemplateConfiguration: Github-Develop::iac/Practice 1/var/dev/Corp5-Chris-Practice1-S3Stack-Dev.json
+                OutputFileName: S3Stack.json
+              InputArtifacts:
+                - Name: Github-Develop
+              OutputArtifacts:
+                - Name: S3Stack-Dev

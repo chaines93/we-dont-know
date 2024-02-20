@@ -4,7 +4,7 @@ Description: Air Corp Pipeline CFT
 Parameters:
   S3BucketName:
     Type: String
-  IAMRoleName:
+  IAMRoleArn:
     Type: String 
   OrgTag: 
     Type: String
@@ -51,7 +51,7 @@ Resources:
           - Sid: Allow use of the key
             Effect: Allow
             Principal:
-              AWS: !Sub "${OrgTag}-${TeamTag}-${AppTag}-${IAMRoleName}-${EnvTag}"
+              AWS: !Ref IAMRoleArn
             Action:
               - 'kms:DescribeKey'
               - 'kms:Encrypt'
@@ -102,7 +102,7 @@ Resources:
         Statement:
           - Effect: Allow
             Principal:
-              AWS: !Sub "${OrgTag}-${TeamTag}-${AppTag}-${IAMRoleName}-${EnvTag}"
+              AWS: !Ref IAMRoleArn
             Action:
               - 's3:GetObject'
               - 's3:PutObject'
@@ -113,5 +113,5 @@ Resources:
 Outputs:
   S3BucketArn:
     Value: !GetAtt S3Bucket.Arn
-  KMSKeyArn:
+  S3KeyArn:
     Value: !GetAtt S3Key.Arn

@@ -38,5 +38,5 @@ Resources:
           Value: !Ref EnvTag
 
 Outputs:
-  KmsKeyArn:
+  IAMRoleArn:
     Value: !GetAtt IAMRole.Arn
