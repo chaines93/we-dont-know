@@ -13,10 +13,10 @@ Parameters:
     Default: Corporation-5/AWSClass2023Fall
   GithubDevBranch:
     Type: String 
-    Default: develop
+    Default: Dev
   GithubPVEBranch: 
     Type: String 
-    Default: release
+    Default: Main
   Numbers:
     Type: String 
     Default: 717025831274
