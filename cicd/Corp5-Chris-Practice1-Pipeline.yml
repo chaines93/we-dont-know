@@ -1,0 +1,75 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Air Corp Pipeline CFT
+
+Parameters:
+  PipelineIAMRoleArn: 
+    Type: String
+    Default: arn:aws:iam::555887476308:role/service-role/AWSCodePipelineServiceRole-us-east-1-Ice-Corp-Pipeline
+  CodeStarConnectionARN: 
+    Type: String
+    Default: arn:aws:codestar-connections:us-east-1:555887476308:connection/3abc2116-36cf-4f76-8842-9c65c5ee96dc
+  GithubRepoLocation:
+    Type: String 
+    Default: Corporation-5/AWSClass2023Fall
+  GithubDevBranch:
+    Type: String 
+    Default: develop
+  GithubPVEBranch: 
+    Type: String 
+    Default: release
+  Numbers:
+    Type: String 
+    Default: 717025831274
+
+Resources:
+  Pipeline:
+    Type: AWS::CodePipeline::Pipeline
+    Properties:
+      Name: Chris-Cft-Pipeline
+      RoleArn: !Ref PipelineIAMRoleArn
+      ArtifactStore: 
+        Location: !Sub 'codepipeline-${AWS::Region}-${Numbers}'
+        Type: S3
+      Stages: 
+        - Name: Source
+          Actions:
+            - RunOrder: 1
+              Name: Github-Development
+              ActionTypeId: 
+                Category: Source
+                Provider: CodeStarSourceConnection
+                Owner: AWS 
+                Version: 1 
+              Configuration: 
+                ConnectionArn: !Ref CodeStarConnectionARN 
+                FullRepositoryId: !Ref GithubRepoLocation
+                BranchName: !Ref GithubDevBranch
+                OutputArtifactFormat:  "CODE_ZIP"
+                DetectChanges: true 
+              OutputArtifacts: 
+                - Name: Github-Develop
+              RunOrder: 1
+            - Name: Github-PVE
+              ActionTypeId: 
+                Category: Source
+                Provider: CodeStarSourceConnection
+                Owner: AWS 
+                Version: 1 
+              Configuration: 
+                ConnectionArn: !Ref CodeStarConnectionARN 
+                FullRepositoryId: !Ref GithubRepoLocation
+                BranchName: !Ref GithubPVEBranch
+                OutputArtifactFormat:  "CODE_ZIP"
+                DetectChanges: true 
+              OutputArtifacts:
+                -  Name: Github-PVE 
+        - Name: Manual-Approval
+          Actions: 
+            - RunOrder: 1
+              Name: Manual-Approval
+              ActionTypeId: 
+                Category: Approval 
+                Provider: Manual 
+                Owner: AWS 
+                Version: 1 
+              
