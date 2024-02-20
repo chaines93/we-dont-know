@@ -10,7 +10,7 @@ Parameters:
     Default: arn:aws:codestar-connections:us-east-1:555887476308:connection/2b66dbd6-88a2-4487-9f3c-a336af936ac3
   GithubRepoLocation:
     Type: String 
-    Default: Corporation-5/AWSClass2023Fall
+    Default: we-dont-know
   GithubDevBranch:
     Type: String 
     Default: Dev
