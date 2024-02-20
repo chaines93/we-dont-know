@@ -7,7 +7,7 @@ Parameters:
     Default: arn:aws:iam::555887476308:role/service-role/AWSCodePipelineServiceRole-us-east-1-Ice-Corp-Pipeline
   CodeStarConnectionARN: 
     Type: String
-    Default: arn:aws:codestar-connections:us-east-1:555887476308:connection/3abc2116-36cf-4f76-8842-9c65c5ee96dc
+    Default: arn:aws:codestar-connections:us-east-1:555887476308:connection/2b66dbd6-88a2-4487-9f3c-a336af936ac3
   GithubRepoLocation:
     Type: String 
     Default: Corporation-5/AWSClass2023Fall
